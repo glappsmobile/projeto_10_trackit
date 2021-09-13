@@ -10,27 +10,38 @@ const ModalAddHabit = ({ habit, setHabit, clearHabit, closeModal, refreshHabits,
 
     const toggleDay = (index) => {
         const newHabit = {...habit};
-        
         newHabit.days[index].active = !newHabit.days[index].active
         setHabit(newHabit);
     }
 
     const submit = (e) => {
         e.preventDefault();
-        setLoading(true);
+        let hasDay = false;
 
-        createHabit({
-            name: habit.name,
-            days: habit.days.filter((day) => day.active).map((day) => day.index )
-        }, token).then(() => {
-            refreshHabits();
-            closeModal();
-            clearHabit();
-            setLoading(false);
-        }).catch((e) => {
-            alert("Ocorreu um erro ao criar o hábito");
-            setLoading(false);
-        })
+        habit.days.forEach((day) => {
+            if (day.active) {
+                hasDay = true;
+            }
+        });
+
+        if (hasDay) {
+            setLoading(true);
+
+            createHabit({
+                name: habit.name,
+                days: habit.days.filter((day) => day.active).map((day) => day.index )
+            }, token).then(() => {
+                refreshHabits();
+                closeModal();
+                clearHabit();
+                setLoading(false);
+            }).catch((e) => {
+                alert("Ocorreu um erro ao criar o hábito");
+                setLoading(false);
+            })
+        } else {
+            alert("Selecione ao menos um dia.")
+        }
     } 
 
     return (
