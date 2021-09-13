@@ -1,4 +1,4 @@
-import { ReactComponent as LogoImg } from '../../assets/logo.svg';
+import { ReactComponent as LogoImg } from '../../assets/logo-text.svg';
 import styled from 'styled-components';
 
 const Logo = styled(LogoImg)`
