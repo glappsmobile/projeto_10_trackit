@@ -11,6 +11,7 @@ import { signIn } from '../../../services/trackit.services';
 const Login = () => {
     const history = useHistory();
     const [form, setForm] = useState({ email: 'adminlson@admin.com', password: 'adminlson@admin.com', });
+    const [loading, setLoading] = useState(false);
     const user = useContext(UserContext);
     
     if (user.token){
@@ -19,11 +20,13 @@ const Login = () => {
 
     const SignIn = (e) => {
         e.preventDefault();
+        setLoading(true);
+
         signIn({...form})
             .then((response) => {
-                console.log(response.data);
                 user.setUser(response.data)
                 history.push('/habitos');
+                setLoading(false);
             })
             .catch((error) => {
                 const statusCode = error.response.status;
@@ -34,6 +37,7 @@ const Login = () => {
                 } else {
                     alert("Ocorreu um erro ao tentar entrar na sua conta.");
                 }
+                setLoading(false);
             });
     }
 
@@ -42,6 +46,7 @@ const Login = () => {
             <Logo />
             <Form onSubmit={SignIn}>
                 <input
+                    disabled={loading}
                     type="email"
                     placeholder="email"
                     maxLength="64"
@@ -51,6 +56,7 @@ const Login = () => {
                 />
 
                 <input
+                    disabled={loading}
                     type="password"
                     maxLength="64"
                     placeholder="senha"
@@ -58,7 +64,8 @@ const Login = () => {
                     value={form.password}
                     required
                 />
-                <Button 
+                <Button
+                    loading={loading} 
                     type="submit"
                     height="45px"
                 > 

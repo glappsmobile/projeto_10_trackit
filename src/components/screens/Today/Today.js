@@ -5,6 +5,8 @@ import Main from '../../shared/Main';
 import { getTodayHabits } from '../../../services/trackit.services'
 import styled from 'styled-components';
 import Habit from './components/Habit';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const Today = () => {
     const user = useContext(UserContext);
@@ -14,8 +16,10 @@ const Today = () => {
     }
 
     const [habits, setHabits] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const refreshHabits = () => {
+        setLoading(true);
         getTodayHabits(user.token)
             .then((response) => {
                 setHabits(response.data)
@@ -23,13 +27,16 @@ const Today = () => {
                 const habitsFinishedCount = habitsStates.filter((state) => state).length;
                 const rate = (habitsFinishedCount / habitsStates.length * 100);
                 user.setRate(rate)
-            }).catch(console.log);
+                setLoading(false);
+            }).catch((e) => {
+                setLoading(false);
+                console.log(e);
+            });
     }
 
 
     useEffect(refreshHabits, []);
 
-    console.log(habits);
     return (
         <Main>
             <ContainerTitle>
@@ -40,6 +47,11 @@ const Today = () => {
                     <GrayText> Nenhum hábito concluído ainda </GrayText>
                 )}
             </ContainerTitle>
+            {loading ? (
+                <ContainerLoading>
+                    <Loader type="ThreeDots" color="#52B6FF" width="100px" />
+                </ContainerLoading>
+            ) : (
             <ContainerHabits>
                 {(habits.length > 0) ? (
                     <>
@@ -58,6 +70,7 @@ const Today = () => {
                     </p>
                 )}
             </ContainerHabits>
+            )}
         </Main>
     );
 }
@@ -83,5 +96,9 @@ const GrayText = styled.span`
 
 const SuccessText = styled.span`
     color: #8FC549;
+`;
+
+const ContainerLoading = styled.div`
+    width: fit-content;
 `;
 export default Today;

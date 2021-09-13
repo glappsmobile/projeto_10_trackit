@@ -1,19 +1,23 @@
 import styled from 'styled-components';
+import React, { useState } from 'react';
+
 import Button from '../../../shared/Button';
 import DayBlocks from './DayBlocks';
 import { createHabit } from '../../../../services/trackit.services';
 
 const ModalAddHabit = ({ habit, setHabit, clearHabit, closeModal, refreshHabits, token}) => {
+    const [loading, setLoading] = useState(false);
 
     const toggleDay = (index) => {
         const newHabit = {...habit};
+        
         newHabit.days[index].active = !newHabit.days[index].active
         setHabit(newHabit);
     }
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(habit);
+        setLoading(true);
 
         createHabit({
             name: habit.name,
@@ -22,14 +26,17 @@ const ModalAddHabit = ({ habit, setHabit, clearHabit, closeModal, refreshHabits,
             refreshHabits();
             closeModal();
             clearHabit();
+            setLoading(false);
         }).catch((e) => {
             alert("Ocorreu um erro ao criar o hábito");
+            setLoading(false);
         })
     } 
 
     return (
         <Form onSubmit={submit} id="form">
             <input
+                disabled={loading}
                 type="text"
                 placeholder="nome do hábito"
                 maxLength="64"
@@ -48,7 +55,7 @@ const ModalAddHabit = ({ habit, setHabit, clearHabit, closeModal, refreshHabits,
                 > 
                     Cancelar 
                 </Button>
-                <Button type="submit" form="form"> Salvar </Button>
+                <Button loading={loading} type="submit" form="form"> Salvar </Button>
             </ContainerButtons>
         </Form>
     )

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const DayBlocks = ({days, toggleDay, pointer}) => {
 
-    console.log(pointer)
     const toggle =  (i) => {
         if (toggleDay) {
             toggleDay(i);

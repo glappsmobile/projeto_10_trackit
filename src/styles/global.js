@@ -24,6 +24,11 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
   }
 
+
+  button:disabled{
+    opacity: 0.7;
+  }
+
   input {
     height: 45px;
     background: #FFFFFF;
@@ -33,7 +38,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 20px;
     padding-left: 11px;
     color: #666666;
-    
+
+    &:disabled {
+      background-color: #F2F2F2
+    }
+
     &:invalid {
         border-color: rgba(220, 53, 69, 1);
     }

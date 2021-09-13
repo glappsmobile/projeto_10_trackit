@@ -7,6 +7,9 @@ import ModalAddHabit from './components/ModalAddHabit';
 import Button from '../../shared/Button'
 import { getHabits, deleteHabitById, updateRate } from '../../../services/trackit.services'
 import Habit from './components/Habit';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
+
 
 const States = {
     NONE: 'NONE',
@@ -24,9 +27,9 @@ const Habits = () => {
     updateRate(user);
 
     const [habits, setHabits] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const deleteHabit = (id) =>{
-        console.log(id)
         deleteHabitById(id, user.token).then(console.log);
         refreshHabits();
     }
@@ -50,6 +53,7 @@ const Habits = () => {
     }
 
     const refreshHabits = () => {
+        setLoading(true);
         getHabits(user.token)
             .then((response) => {
 
@@ -73,7 +77,11 @@ const Habits = () => {
                 })
                 
                 setHabits(newHabits)
-            }).catch(console.log)
+                setLoading(false);
+            }).catch((e) => {
+                setLoading(false);
+                console.log(e.response)
+            } )
     }
 
     useEffect(refreshHabits, []);
@@ -81,7 +89,6 @@ const Habits = () => {
     const [state, setState] = useState('');
 
     const toggleState = (newState) => {
-
         if (newState === States.ADDING) {
 
             if (state === States.ADDING) {
@@ -111,19 +118,25 @@ const Habits = () => {
                     clearHabit={clearHabit}
                 />
             )}
-            <ContainerHabits>
-                {(habits.length > 0)? (
-                    <>
-                        {habits.map((habit) => (
-                            <Habit {...habit} deleteHabit={deleteHabit} key={habit.id} />
-                        ))}
-                    </>
-                ) :(
-                    <p>
-                        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                    </p>
-                )}
-            </ContainerHabits>
+            {loading? (
+                <ContainerLoading>
+                    <Loader type="ThreeDots" color="#52B6FF" width="100px" />
+                </ContainerLoading>
+            ) : (
+                <ContainerHabits>
+                    {(habits.length > 0)? (
+                        <>
+                            {habits.map((habit) => (
+                                <Habit {...habit} deleteHabit={deleteHabit} key={habit.id} />
+                            ))}
+                        </>
+                    ) :(
+                        <p>
+                            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                        </p>
+                    )}
+                </ContainerHabits>
+            )}
         </Main>
     )
 }
@@ -138,6 +151,10 @@ const ContainerTitle = styled.div`
 const ContainerHabits = styled.div`
     margin-top: 30px;
     margin-bottom: 105px;
+`;
+
+const ContainerLoading = styled.div`
+    width: fit-content;
 `;
 
 export default Habits;

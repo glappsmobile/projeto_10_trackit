@@ -16,14 +16,13 @@ function App() {
   const [user, setUser] = useState({});
   const [rate, setRate] = useState(0);
 
-
   return (
     <StyledApp>
       <GlobalStyle />
       <BrowserRouter>
         <UserContext.Provider value={{...user, setUser, rate, setRate}}>
           {user.token && (
-            <Header image='https://s2.glbimg.com/UDwdpwlMblPVckJDOJxhdTf48hQ=/e.glbimg.com/og/ed/f/original/2019/11/01/chines1.jpg' />
+            <Header image={user.image} />
           )}
           <Switch>
             <Route path ={"/"} component={Login} exact />

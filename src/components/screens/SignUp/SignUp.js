@@ -12,6 +12,7 @@ import { signUp } from '../../../services/trackit.services';
 const SignUp = () => {
     const history = useHistory();
     const [form, setForm] = useState({email: '', password: '', name: '', image: ''});
+    const [loading, setLoading] = useState(false);
     const user = useContext(UserContext);
 
     if (user.token) {
@@ -21,13 +22,13 @@ const SignUp = () => {
 
     const createAccount = (e) => {
         e.preventDefault();
-        console.log(form)
+        setLoading(true);
 
         signUp({...form})
             .then((res) => {
-                console.log(res.data);
                 alert("Conta criada com sucesso");
                 history.push('/');
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error.response);
@@ -41,6 +42,7 @@ const SignUp = () => {
                 } else {
                     alert("Ocorreu um erro ao tentar criar a conta.");
                 }
+                setLoading(false);
             });
     }
 
@@ -49,6 +51,7 @@ const SignUp = () => {
             <Logo />
             <Form onSubmit={createAccount} >
                 <input
+                    disabled={loading}
                     type="email"
                     placeholder="email"
                     maxLength="64"
@@ -58,6 +61,7 @@ const SignUp = () => {
                 />
 
                 <input
+                    disabled={loading}
                     type="password"
                     minLength="6"
                     maxLength="64"
@@ -68,6 +72,7 @@ const SignUp = () => {
                 />
             
                 <input
+                    disabled={loading}
                     type="text"
                     placeholder="nome"
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -76,6 +81,7 @@ const SignUp = () => {
                 />
 
                 <input 
+                    disabled={loading}
                     type="url" 
                     placeholder="foto" 
                     onChange={(e) => setForm({ ...form, image: e.target.value })}
@@ -84,6 +90,7 @@ const SignUp = () => {
                 />
 
                 <Button
+                    loading={loading}
                     type="submit"
                     height="45px"
                 >
