@@ -20,10 +20,19 @@ const deleteHabitById = (id, token) => axios.delete(`${API_URL}/habits/${id}`, c
 
 const getHabits = (token) => axios.get(`${API_URL}/habits`, config(token));
 
+const getTodayHabits = (token) => axios.get(`${API_URL}/habits/today`, config(token));
+
+const checkHabit = (id, token) => axios.post(`${API_URL}/habits/${id}/check`, "", config(token));
+
+const uncheckHabit = (id, token) => axios.post(`${API_URL}/habits/${id}/uncheck`, "", config(token));
+
 export {
     signUp,
     signIn,
     createHabit,
     deleteHabitById,
-    getHabits
+    getHabits,
+    getTodayHabits,
+    checkHabit,
+    uncheckHabit
 }

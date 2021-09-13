@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Login from './components/screens/SignIn/SignIn';
 import Register from './components/screens/SignUp/SignUp';
 import Habits from './components/screens/Habits/Habits';
+import Today from './components/screens/Today/Today';
 import styled from "styled-components";
 import GlobalStyle from './styles/global';
 import UserContext from './contexts/UserContext';
@@ -24,6 +25,7 @@ function App() {
             <Route path ={"/"} component={Login} exact />
             <Route path={"/cadastro"} component={Register} exact />
             <Route path={"/habitos"} component={Habits} exact />
+            <Route path={"/hoje"} component={Today} exact />
           </Switch>
           {user.token && (
             <Footer />

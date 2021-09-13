@@ -38,7 +38,7 @@ const ModalAddHabit = ({ habit, setHabit, clearHabit, closeModal, refreshHabits,
                 required
             />
 
-            <DayBlocks days={habit.days} toggleDay={toggleDay} />
+            <DayBlocks days={habit.days} pointer={true} toggleDay={toggleDay} />
             
             <ContainerButtons>
                 <Button 

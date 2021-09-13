@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-const DayBlocks = ({days, toggleDay}) => {
+const DayBlocks = ({days, toggleDay, pointer}) => {
 
+    console.log(pointer)
     const toggle =  (i) => {
         if (toggleDay) {
             toggleDay(i);
@@ -14,6 +15,7 @@ const DayBlocks = ({days, toggleDay}) => {
                 <DayBlock
                     onClick={() => toggle(i)}
                     active={day.active}
+                    pointer={pointer}
                 >
                     {day.firstLetter}
                 </DayBlock>
@@ -28,6 +30,7 @@ const ContainerDayBlocks = styled.form`
 `;
 
 const DayBlock = styled.form`
+    cursor: ${({ pointer }) => pointer ? 'pointer' : 'default'};
     display: flex;
     align-items: center;
     justify-content: center;

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Progressbar from './shared/Progressbar';
+import { Link } from 'react-router-dom';
 
 const ContainerFooter = styled.footer`
     position: fixed;
@@ -39,13 +40,18 @@ const Header = () => {
     return (
         <ContainerFooter>
             <ContainerButtons>
-                <span>Hábitos</span>
+                <Link to='/habitos'>
+                    <span>Hábitos</span>
+                </Link>
                 <span />
                 <span>Histórico</span>
             </ContainerButtons>
-            <ContainerProgressbar>
-                <Progressbar text='Hoje' value={36} />
-            </ContainerProgressbar>
+                <ContainerProgressbar>
+                    <Link to='/hoje'>
+                        <Progressbar text='Hoje' value={36} />
+                    </Link>
+                </ContainerProgressbar>
+
         </ContainerFooter>
     )
 }

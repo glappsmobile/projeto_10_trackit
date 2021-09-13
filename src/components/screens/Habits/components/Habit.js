@@ -21,7 +21,7 @@ const ContainerHabbit = styled.div`
     margin-top: 20px;
     background-color: #fff;
     border-radius: 5px;
-    padding: 30px;
+    padding: 18px;
 `;
 
 const ContainerTrash = styled.div`

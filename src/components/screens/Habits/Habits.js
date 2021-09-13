@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import UserContext from '../../../contexts/UserContext';import styled from 'styled-components';
+import UserContext from '../../../contexts/UserContext';
+import styled from 'styled-components';
 import Main from '../../shared/Main';
 import ModalAddHabit from './components/ModalAddHabit';
 import Button from '../../shared/Button'
