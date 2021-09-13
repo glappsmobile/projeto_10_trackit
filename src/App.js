@@ -7,17 +7,21 @@ import Login from './components/screens/SignIn/SignIn';
 import Register from './components/screens/SignUp/SignUp';
 import Habits from './components/screens/Habits/Habits';
 import Today from './components/screens/Today/Today';
+import History from './components/screens/History/History';
 import styled from "styled-components";
 import GlobalStyle from './styles/global';
 import UserContext from './contexts/UserContext';
 
 function App() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
+  const [rate, setRate] = useState(0);
+
+
   return (
     <StyledApp>
       <GlobalStyle />
       <BrowserRouter>
-        <UserContext.Provider value={{...user, setUser}}>
+        <UserContext.Provider value={{...user, setUser, rate, setRate}}>
           {user.token && (
             <Header image='https://s2.glbimg.com/UDwdpwlMblPVckJDOJxhdTf48hQ=/e.glbimg.com/og/ed/f/original/2019/11/01/chines1.jpg' />
           )}
@@ -26,9 +30,11 @@ function App() {
             <Route path={"/cadastro"} component={Register} exact />
             <Route path={"/habitos"} component={Habits} exact />
             <Route path={"/hoje"} component={Today} exact />
+            <Route path={"/historico"} component={History} exact />
+
           </Switch>
           {user.token && (
-            <Footer />
+            <Footer rate={rate} />
           )}
         </UserContext.Provider>
       </BrowserRouter>

@@ -35,7 +35,7 @@ const ContainerProgressbar = styled.div`
     height: 91px;
 `;
 
-const Header = () => {
+const Footer = ({rate}) => {
 
     return (
         <ContainerFooter>
@@ -44,11 +44,13 @@ const Header = () => {
                     <span>Hábitos</span>
                 </Link>
                 <span />
-                <span>Histórico</span>
+                <Link to='/historico'>
+                    <span>Histórico</span>
+                </Link>
             </ContainerButtons>
                 <ContainerProgressbar>
                     <Link to='/hoje'>
-                        <Progressbar text='Hoje' value={36} />
+                        <Progressbar text='Hoje' value={rate} />
                     </Link>
                 </ContainerProgressbar>
 
@@ -56,4 +58,4 @@ const Header = () => {
     )
 }
 
-export default Header;
+export default Footer;

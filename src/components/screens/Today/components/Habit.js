@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { checkHabit, uncheckHabit } from '../../../../services/trackit.services'
 
-const Habbit = ({name, done, id, token, refreshHabits}) => {
+const Habbit = ({name, done, id, token, currentSequence, highestSequence, refreshHabits}) => {
     
     const toggle = () => {
-        console.log(done)
         if(!done){
             checkHabit(id, token)
                 .then(refreshHabits)
@@ -24,8 +23,13 @@ const Habbit = ({name, done, id, token, refreshHabits}) => {
         <ContainerHabbit>
             <div>
                 <Text>{name}</Text>
-                <SmallText> Sequência atual: 3 dias </SmallText>
-                <SmallText> Seu recorde: 5 dias </SmallText>
+                <SmallText done={done}> Sequência atual: {currentSequence} {(currentSequence === 1)? 'dia' : 'dias'} </SmallText>
+                <SmallText 
+                    currentSequence={currentSequence}
+                    highestSequence={highestSequence}
+                > 
+                    Seu recorde: {highestSequence} {(highestSequence === 1) ? 'dia' : 'dias'} 
+                </SmallText>
             </div>
 
             <ContainerCheckBox 
@@ -58,6 +62,18 @@ const Text = styled.span`
 
 const SmallText = styled.span`
     font-size: 13px;
+    color: ${({currentSequence, highestSequence, done}) => {
+
+        if (done) {
+            return '#8FC549';
+        }
+
+        if (currentSequence && currentSequence === highestSequence) {
+            return '#8FC549';
+        }
+        
+        return 'inherit';
+    }}
 `;
 
 const ContainerCheckBox = styled.div`
@@ -70,7 +86,8 @@ const ContainerCheckBox = styled.div`
     ion-icon {
         font-size: 85px;
         border-radius: 5px;
-        color: ${({ done }) => done ? '#8FC549' : '#EBEBEB'}
+        color: ${({ done }) => done ? '#8FC549' : '#EBEBEB'};
+        transition: 250ms;
     }   
 
 

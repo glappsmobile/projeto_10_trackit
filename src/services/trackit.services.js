@@ -26,6 +26,15 @@ const checkHabit = (id, token) => axios.post(`${API_URL}/habits/${id}/check`, ""
 
 const uncheckHabit = (id, token) => axios.post(`${API_URL}/habits/${id}/uncheck`, "", config(token));
 
+const updateRate = (user) => {
+    getTodayHabits(user.token).then((response) => {
+        const habitsStates = response.data.map((habit) => habit.done);
+        const habitsFinishedCount = habitsStates.filter((state) => state).length;
+        const rate = (habitsFinishedCount / habitsStates.length * 100);
+        user.setRate(rate)
+    })
+}
+
 export {
     signUp,
     signIn,
@@ -34,5 +43,6 @@ export {
     getHabits,
     getTodayHabits,
     checkHabit,
-    uncheckHabit
+    uncheckHabit,
+    updateRate
 }

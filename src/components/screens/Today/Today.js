@@ -19,16 +19,27 @@ const Today = () => {
         getTodayHabits(user.token)
             .then((response) => {
                 setHabits(response.data)
-            }).catch(console.log)
+                const habitsStates = response.data.map((habit) => habit.done);
+                const habitsFinishedCount = habitsStates.filter((state) => state).length;
+                const rate = (habitsFinishedCount / habitsStates.length * 100);
+                user.setRate(rate)
+            }).catch(console.log);
     }
+
 
     useEffect(refreshHabits, []);
 
-    console.log(habits)
-
+    console.log(habits);
     return (
-        <Main paddingTop='28px'>
-            <h1>Segunda, 17/05</h1>
+        <Main>
+            <ContainerTitle>
+                <h1>Segunda, 17/05</h1>
+                {user.rate? (
+                    <SuccessText> {user.rate.toFixed()}% dos hábitos concluídos </SuccessText>
+                ) : (
+                    <GrayText> Nenhum hábito concluído ainda </GrayText>
+                )}
+            </ContainerTitle>
             <ContainerHabits>
                 {(habits.length > 0) ? (
                     <>
@@ -56,4 +67,21 @@ const ContainerHabits = styled.div`
     margin-bottom: 105px;
 `;
 
+
+const ContainerTitle = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    span{
+        margin-top: 5px;
+    }
+`;
+
+const GrayText = styled.span`
+    color: #BABABA;
+`;
+
+const SuccessText = styled.span`
+    color: #8FC549;
+`;
 export default Today;

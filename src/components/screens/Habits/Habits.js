@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Main from '../../shared/Main';
 import ModalAddHabit from './components/ModalAddHabit';
 import Button from '../../shared/Button'
-import { getHabits, deleteHabitById } from '../../../services/trackit.services'
+import { getHabits, deleteHabitById, updateRate } from '../../../services/trackit.services'
 import Habit from './components/Habit';
 
 const States = {
@@ -20,6 +20,8 @@ const Habits = () => {
     if (!user.token) {
         history.push('/');
     }
+
+    updateRate(user);
 
     const [habits, setHabits] = useState([]);
 
@@ -91,7 +93,7 @@ const Habits = () => {
     }
     
     return (
-        <Main paddingTop='28px'>
+        <Main>
             <ContainerTitle>
                 <h1>Meus hábitos</h1>
                 <Button 
