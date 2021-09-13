@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import UserContext from '../../../contexts/UserContext';
+import { Link, useHistory } from 'react-router-dom';
 import { StatusCode } from 'status-code-enum';
 import Logo from '../../shared/Logo'
 import Main from '../../shared/Main'
 import Form from '../../shared/Form'
+import Button from '../../shared/Button'
 import { signIn } from '../../../services/trackit.services';
 
 const Login = () => {
-
-    const [form, setForm] = useState({ email: '', password: '', });
+    const history = useHistory();
+    const [form, setForm] = useState({ email: 'adminlson@admin.com', password: 'adminlson@admin.com', });
+    const user = useContext(UserContext);
+    
+    if (user.token){
+        history.push('/habitos');
+    }
 
     const SignIn = (e) => {
         e.preventDefault();
         signIn({...form})
             .then((response) => {
                 console.log(response.data);
+                user.setUser(response.data)
+                history.push('/habitos');
             })
             .catch((error) => {
                 const statusCode = error.response.status;
@@ -29,7 +38,7 @@ const Login = () => {
     }
 
     return (
-        <Main>
+        <Main paddingTop="68px">
             <Logo />
             <Form onSubmit={SignIn}>
                 <input
@@ -43,14 +52,18 @@ const Login = () => {
 
                 <input
                     type="password"
-                    minLength="6"
                     maxLength="64"
                     placeholder="senha"
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                     value={form.password}
                     required
                 />
-                <button type="submit"> Entrar </button>
+                <Button 
+                    type="submit"
+                    height="45px"
+                > 
+                    Entrar 
+                </Button>
             </Form>
 
             <Link className="styledAnchor" to="/cadastro">

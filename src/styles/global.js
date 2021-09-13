@@ -2,6 +2,10 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
+  * {
+        box-sizing: border-box;
+  }
+
   body {
     background-color: #F2F2F2;
     font-family: 'Lexend Deca', sans-serif;
@@ -10,31 +14,25 @@ const GlobalStyle = createGlobalStyle`
     line-height: 22.47px;
   }
 
-  button {
-    height: 45px;
-    background: #52B6FF;
-    border: none;
-    border-radius: 4.63636px;
-    color: #FFFFFF;
-    font-size: 21px;
-  }
-
   h1 { 
     width: 100%;
     font-size: 23px;
     color: #126BA5;
   }
 
-  div {
+  div, form, input {
     width: 100%;
   }
 
   input {
     height: 45px;
     background: #FFFFFF;
+    font-family: 'Lexend Deca', sans-serif;
     border: 1px solid #D5D5D5;
     border-radius: 5px;
     font-size: 20px;
+    padding-left: 11px;
+    color: #666666;
     
     &:invalid {
         border-color: rgba(220, 53, 69, 1);
@@ -42,35 +40,35 @@ const GlobalStyle = createGlobalStyle`
 
     &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
       font-size: inherit;
-      color: inherit;
+      color: #DBDBDB;
     }
 
     }
     &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
       font-size: inherit;
-      color: inherit;
+      color: #DBDBDB;
       opacity: 1;
     }
 
     &::-moz-placeholder { /* Mozilla Firefox 19+ */
       font-size: inherit;
-      color: inherit;
+      color: #DBDBDB;
       opacity: 1
     }
 
     &:-ms-input-placeholder { /* Internet Explorer 10-11 */
       font-size: inherit;
-      color: inherit;
+      color: #DBDBDB;
     }
 
     &::-ms-input-placeholder { /* Microsoft Edge */
       font-size: inherit;
-      color: inherit;
+      color: #DBDBDB;
     }
 
     &::placeholder {
       font-size: inherit;
-      color: inherit;
+      color: #DBDBDB;
     }
 
     input[value=""] {
