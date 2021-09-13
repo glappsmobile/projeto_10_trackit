@@ -4,7 +4,7 @@ import UserContext from '../../../contexts/UserContext';import styled from 'styl
 import Main from '../../shared/Main';
 import ModalAddHabit from './components/ModalAddHabit';
 import Button from '../../shared/Button'
-import { getHabits } from '../../../services/trackit.services'
+import { getHabits, deleteHabitById } from '../../../services/trackit.services'
 import Habit from './components/Habit';
 
 const States = {
@@ -12,16 +12,6 @@ const States = {
     ADDING: 'ADDING',
     ERROR: 'ERROR'
 }
-
-const ContainerTitle = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const ContainerHabits = styled.div`
-    margin-top: 30px;
-`;
 
 const Habits = () => {
     const user = useContext(UserContext);
@@ -32,6 +22,12 @@ const Habits = () => {
 
     const [habits, setHabits] = useState([]);
 
+    const deleteHabit = (id) =>{
+        console.log(id)
+        deleteHabitById(id, user.token).then(console.log);
+        refreshHabits();
+    }
+
     const daysModel = [
         { index: 0, firstLetter: 'D', active: false },
         { index: 1, firstLetter: 'S', active: false },
@@ -41,9 +37,14 @@ const Habits = () => {
         { index: 5, firstLetter: 'S', active: false },
         { index: 6, firstLetter: 'S', active: false }
     ];
-    const [habit, setHabit] = useState({ name: '', days: daysModel});
 
+    const blankHabit = { name: '', days: daysModel }
 
+    const [habit, setHabit] = useState({...blankHabit});
+
+    const clearHabit = () => {
+        setHabit({...blankHabit})
+    }
 
     const refreshHabits = () => {
         getHabits(user.token)
@@ -103,13 +104,15 @@ const Habits = () => {
                     setHabit={setHabit}
                     token={user.token}
                     closeModal={() => setState(States.NONE)}
-                /> 
+                    refreshHabits={refreshHabits}
+                    clearHabit={clearHabit}
+                />
             )}
             <ContainerHabits>
                 {(habits.length > 0)? (
                     <>
-                        {habits.map((habit, i) => (
-                            <Habit {...habit}  key={i} />
+                        {habits.map((habit) => (
+                            <Habit {...habit} deleteHabit={deleteHabit} key={habit.id} />
                         ))}
                     </>
                 ) :(
@@ -121,5 +124,17 @@ const Habits = () => {
         </Main>
     )
 }
+
+
+const ContainerTitle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const ContainerHabits = styled.div`
+    margin-top: 30px;
+    margin-bottom: 105px;
+`;
 
 export default Habits;

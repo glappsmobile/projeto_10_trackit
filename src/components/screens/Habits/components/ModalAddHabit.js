@@ -3,7 +3,7 @@ import Button from '../../../shared/Button';
 import DayBlocks from './DayBlocks';
 import { createHabit } from '../../../../services/trackit.services';
 
-const ModalAddHabit = ({habit, setHabit, closeModal, token}) => {
+const ModalAddHabit = ({ habit, setHabit, clearHabit, closeModal, refreshHabits, token}) => {
 
     const toggleDay = (index) => {
         const newHabit = {...habit};
@@ -18,7 +18,13 @@ const ModalAddHabit = ({habit, setHabit, closeModal, token}) => {
         createHabit({
             name: habit.name,
             days: habit.days.filter((day) => day.active).map((day) => day.index )
-        }, token).then(console.log).catch((e) => console.log(e.message))
+        }, token).then(() => {
+            refreshHabits();
+            closeModal();
+            clearHabit();
+        }).catch((e) => {
+            alert("Ocorreu um erro ao criar o hábito");
+        })
     } 
 
     return (
