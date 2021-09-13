@@ -10,7 +10,7 @@ import { signIn } from '../../../services/trackit.services';
 
 const Login = () => {
     const history = useHistory();
-    const [form, setForm] = useState({ email: 'adminlson@admin.com', password: 'adminlson@admin.com', });
+    const [form, setForm] = useState({ email: '', password: ''});
     const [loading, setLoading] = useState(false);
     const user = useContext(UserContext);
     
